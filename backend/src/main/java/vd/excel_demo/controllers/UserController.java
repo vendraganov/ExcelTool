@@ -18,7 +18,6 @@ import vd.excel_demo.services.UserService;
 
 import javax.validation.Valid;
 
-
 @RestController
 @RequestMapping("/user")
 public class UserController {
@@ -27,6 +26,7 @@ public class UserController {
 
     private static final String LOGIN_USER = "Login user with email %s";
     private static final String ERROR_LOGIN = "Error login user! ";
+    private static final String LOGGING_REQUEST = "Logging request";
 
     private final UserService userService;
     private final AuthenticationManager authenticationManager;
@@ -39,6 +39,7 @@ public class UserController {
 
     @PostMapping("/login")
     public UserResponse login(@Valid @RequestBody Login login) {
+        LOGGER.info(LOGGING_REQUEST);
         try {
             final Authentication authentication = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(

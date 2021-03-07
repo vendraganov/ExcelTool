@@ -9,6 +9,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import vd.excel_demo.models.Student;
+import vd.excel_demo.utils.Constants;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -20,7 +21,6 @@ import java.util.List;
 public class FileService {
 
     private static final String FAIL_TO_PARSE_EXCEL_FILE = "Fail to parse Excel file: ";
-    private static final String TYPE = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
     private static final String SHEET_NAME = "Students";
     private static final String STUDENT_ID = "Student ID";
     private static final String FIRST_NAME = "First Name";
@@ -66,7 +66,7 @@ public class FileService {
     }
 
     public boolean isExcelFormat(MultipartFile file) {
-        return TYPE.equals(file.getContentType());
+        return Constants.TYPE.equals(file.getContentType());
     }
 
     public Resource downloadFile() throws IOException {
@@ -77,7 +77,7 @@ public class FileService {
 
             XSSFFont headerFont = workbook.createFont();
             headerFont.setBold(true);
-            headerFont.setColor(IndexedColors.BLUE.getIndex());
+            headerFont.setColor(IndexedColors.BLACK.getIndex());
 
             CellStyle headerCellStyle = workbook.createCellStyle();
             headerCellStyle.setFont(headerFont);

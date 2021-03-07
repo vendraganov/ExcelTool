@@ -13,6 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 import vd.excel_demo.models.ResponseMessage;
 import vd.excel_demo.services.FileService;
+import vd.excel_demo.utils.Constants;
 
 import java.io.IOException;
 
@@ -42,6 +43,7 @@ public class FileController {
         LOGGER.info(DOWNLOADING_FILE);
         try {
             HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(Constants.APPLICATION_ATOM_XML);
             headers.add(HttpHeaders.CONTENT_DISPOSITION, FILENAME_STUDENTS_XLSX);
             return new ResponseEntity<>(this.fileService.downloadFile(), headers, HttpStatus.OK);
         } catch (IOException e) {

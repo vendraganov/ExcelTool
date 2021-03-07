@@ -47,7 +47,7 @@ public class StudentController {
         }
     }
 
-    @DeleteMapping("/{studentId}")
+    @DeleteMapping("/delete/{studentId}")
     public ResponseEntity<Boolean> deleteStudent(@PathVariable Long studentId){
         if(this.studentService.deleteStudent(studentId)){
             LOGGER.info(String.format(STUDENT_WITH_ID_WAS_DELETED, studentId));

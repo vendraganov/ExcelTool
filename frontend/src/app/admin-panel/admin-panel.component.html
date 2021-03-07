@@ -1,0 +1,26 @@
+<div class="container-sm box">
+  <div class="row justify-content-center align-items-center padding">
+
+    <label class="form-label">Logout from Admin Panel</label>
+    <button type="submit" class="btn btn-primary" (click)="logout()">Logout</button>
+    <hr class="mt-5 mb-5"/>
+
+    <label class="form-label">Add new Student</label>
+    <button type="submit" class="btn btn-primary" (click)="addStudent()">Add Student</button>
+    <hr class="mt-5 mb-5"/>
+
+    <label class="form-label">List all Students</label>
+    <button type="submit" class="btn btn-primary" (click)="listStudents()">List Students</button>
+    <hr class="mt-5 mb-5"/>
+
+    <label class="form-label">Upload Students excel file and saved them to the database</label>
+    <input style="display: none"  type="file"
+           accept=".xlsx" (change)="uploadFile($event); inputFile.value=null"
+           #inputFile>
+    <button type="submit" class="btn btn-primary" (click)="inputFile.click()">Upload File</button>
+    <hr class="mt-5 mb-5"/>
+
+    <label class="form-label">Download Students as Excel file</label>
+    <button type="submit" class="btn btn-primary" (click)="downloadFile()">Download File</button>
+  </div>
+</div>

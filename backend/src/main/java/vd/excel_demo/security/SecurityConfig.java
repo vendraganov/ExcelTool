@@ -14,9 +14,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.CorsConfigurationSource;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import vd.excel_demo.exceptions.CustomAccessDeniedHandler;
 import vd.excel_demo.exceptions.CustomAuthenticationEntryPoint;
@@ -83,20 +80,5 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter implements WebM
         http.headers()
                 .frameOptions()
                 .sameOrigin();
-    }
-
-    @Bean
-    CorsConfigurationSource corsConfigurationSource() {
-        final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-
-        CorsConfiguration config = new CorsConfiguration();
-        config.addAllowedHeader("Access-Control-Allow-Origin");
-        config.addAllowedHeader("Authorization");
-        config.addAllowedHeader("Content-type");
-        config.addAllowedOrigin("*");
-        config.addAllowedMethod("*");
-
-        source.registerCorsConfiguration("/**", config);
-        return source;
     }
 }

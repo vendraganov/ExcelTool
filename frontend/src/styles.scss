@@ -1,1 +1,42 @@
 /* You can add global styles to this file, and also import other style files */
+
+.bg {
+  background-color: rgba(15, 15, 15, 0.9);
+}
+
+.error-text {
+  width: 100%;
+  font-size: 80%;
+  margin-top: 5px;
+  color: rgb(220, 50, 70);
+  line-height: 1.5;
+}
+
+.alert-box {
+  width: auto;
+  height: auto;
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  background-clip: padding-box;
+  padding: 15px;
+  margin-bottom: 20px;
+  margin-top: 20px;
+  color: white;
+  background-color: rgba(220, 50, 70, 0.1);
+  border: 1px rgb(220, 50, 70) solid;
+}
+
+.box {
+  max-width: 720px !important;
+  margin-top: 7%;
+  background: rgba(0, 0, 0, 0.4);
+  color: white;
+  border-radius: 10px;
+}
+
+.padding {
+  padding: 50px;
+}
+
