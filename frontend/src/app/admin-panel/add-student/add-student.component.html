@@ -1,6 +1,85 @@
 <div class="container-sm box">
+  <div class="row justify-content-end align-items-end padding">
+    <button type="button" class="btn button-color button-width" (click)="backToAdminPanel()">Go Back</button>
+  </div>
+  <label class="padding-left">Add new student form</label>
+  <hr/>
   <div class="row justify-content-center align-items-center padding">
-    <label class="form-label">Add new Student</label>
-    <button type="submit" class="btn btn-primary" (click)="backToAdminPanel()">Back to Admin Panel</button>
+    <form [formGroup]="studentForm" (ngSubmit)="onSubmit()">
+      <div class=" form-group mb-3">
+        <label for="exampleInputFirstName" class="form-label">First Name</label>
+        <input id="exampleInputFirstName"
+               type="text"
+               class="form-control"
+               formControlName="firstName"
+               [ngClass]="{'is-invalid': (studentForm.get('firstName').touched ||
+                                              studentForm.get('firstName').dirty) &&
+                                              !studentForm.get('firstName').valid,
+                               'is-valid': studentForm.get('firstName').valid }"/>
+        <div class="error-text">
+              <span *ngIf="studentForm.get('firstName').errors?.required">
+                First Name Required
+              </span>
+        </div>
+      </div>
+
+      <div class=" form-group mb-3">
+        <label for="exampleInputLastName" class="form-label">Last Name</label>
+        <input id="exampleInputLastName"
+               type="text"
+               class="form-control"
+               formControlName="lastName"
+               [ngClass]="{'is-invalid': (studentForm.get('lastName').touched ||
+                                              studentForm.get('lastName').dirty) &&
+                                              !studentForm.get('lastName').valid,
+                               'is-valid': studentForm.get('lastName').valid }"/>
+        <div class="error-text">
+              <span *ngIf="studentForm.get('lastName').errors?.required">
+                Last Name Required
+              </span>
+        </div>
+      </div>
+
+      <div class="form-group mb-4">
+        <label class="form-label">Gender</label>
+        <div>
+          <div class="radio-item">
+            <input type="radio" id="female" value="Female" formControlName="gender">
+            <label class="radio-inline-label" for="female">Female</label>
+          </div>
+          <div class="radio-item">
+            <input type="radio" id="Male" value="Male" formControlName="gender">
+            <label class="radio-inline-label" for="Male">Male</label>
+          </div>
+          <div class="radio-item">
+            <input type="radio" id="divers" value="Divers" formControlName="gender">
+            <label class="radio-inline-label" for="divers">Divers</label>
+          </div>
+          <div class="error-text">
+              <span *ngIf="studentForm.get('gender').errors?.required">
+                Gender Required
+              </span>
+          </div>
+        </div>
+      </div>
+
+      <div class=" form-group mb-3">
+        <label for="dob" class="form-label">Date Of Birth</label>
+        <input id="dob"
+               type="date"
+               class="form-control"
+               formControlName="dob"
+               [ngClass]="{'is-invalid': (studentForm.get('dob').touched ||
+                                              studentForm.get('dob').dirty) &&
+                                              !studentForm.get('dob').valid,
+                               'is-valid': studentForm.get('dob').valid }"/>
+        <div class="error-text">
+              <span *ngIf="studentForm.get('dob').errors?.required">
+                Date Of Birth Required
+              </span>
+        </div>
+      </div>
+      <button type="submit" class="btn button-color mt-3 mb-4 button-width" [disabled]="studentForm.invalid">Submit</button>
+    </form>
   </div>
 </div>

@@ -8,7 +8,7 @@
   width: 100%;
   font-size: 80%;
   margin-top: 5px;
-  color: rgb(220, 50, 70);
+  color: var(--warning-color);
   line-height: 1.5;
 }
 
@@ -25,7 +25,7 @@
   margin-top: 20px;
   color: white;
   background-color: rgba(220, 50, 70, 0.1);
-  border: 1px rgb(220, 50, 70) solid;
+  border: 1px var(--warning-color) solid;
 }
 
 .box {
@@ -38,5 +38,23 @@
 
 .padding {
   padding: 50px;
+}
+
+.padding-left {
+  padding-left: 50px;
+}
+
+.button-width {
+  max-width: 150px !important;
+}
+
+.button-color {
+  background-color: var(--primary-color) !important;
+  color: white !important;
+}
+
+:root {
+  --primary-color: rgb(45, 180, 160, 0.8);
+  --warning-color: rgb(220, 50, 70)
 }
 

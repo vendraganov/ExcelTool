@@ -28,6 +28,9 @@ export class AdminPanelComponent implements OnInit {
           alert(responseMessage.message);
         }, (error: HttpErrorResponse) => {
           alert(this.ERROR + error.error.message);
+          if (error.status === 401) {
+            this.router.navigate(['login']);
+          }
         });
     }
   }
@@ -45,6 +48,9 @@ export class AdminPanelComponent implements OnInit {
         downloadLink.click();
       }, (error: HttpErrorResponse) => {
         alert(this.ERROR + error.error.message);
+        if (error.status === 401) {
+          this.router.navigate(['login']);
+        }
       });
   }
 
