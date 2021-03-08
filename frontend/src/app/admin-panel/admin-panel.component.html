@@ -2,25 +2,33 @@
   <div class="row justify-content-end align-items-end padding">
     <button type="button" class="btn button-color button-width" (click)="logout()">Logout</button>
   </div>
+  <label class="padding-left label-color">Admin student panel</label>
   <hr/>
   <div class="row justify-content-center align-items-center padding">
 
-    <label class="form-label mb-2">Add new student to database</label>
+    <label class="form-label label-color mb-2">Add new student to database</label>
     <button type="button" class="btn button-color" (click)="addStudent()">Add Student</button>
     <hr class="mt-5 mb-5"/>
 
-    <label class="form-label mb-2">List all students from database</label>
+    <label class="form-label label-color mb-2">List all students from database</label>
     <button type="button" class="btn button-color" (click)="listStudents()">List Students</button>
     <hr class="mt-5 mb-5"/>
 
-    <label class="form-label mb-2">Upload students excel file and saved them to the database</label>
+    <label class="form-label label-color mb-2">Upload students excel file and saved them to the database</label>
     <input style="display: none"  type="file"
            accept=".xlsx" (change)="uploadFile($event); inputFile.value=null"
            #inputFile>
     <button type="button" class="btn button-color" (click)="inputFile.click()">Upload File</button>
     <hr class="mt-5 mb-5"/>
 
-    <label class="form-label mb-2">Download students as excel file</label>
+    <label class="form-label label-color mb-2">Download students as excel file</label>
     <button type="button" class="btn button-color" (click)="downloadFile()">Download File</button>
   </div>
+  <ngx-spinner
+    bdColor=""
+    size="medium"
+    color="#2DB4A0"
+    type="ball-spin-clockwise-fade-rotating"
+    [fullScreen]="false">
+  </ngx-spinner>
 </div>

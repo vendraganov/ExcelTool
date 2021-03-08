@@ -13,22 +13,22 @@ import vd.excel_demo.utils.Constants;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class FileService {
 
-    private static final String FAIL_TO_PARSE_EXCEL_FILE = "Fail to parse Excel file: ";
     private static final String SHEET_NAME = "Students";
-    private static final String STUDENT_ID = "Student ID";
-    private static final String FIRST_NAME = "First Name";
-    private static final String LAST_NAME = "Last Name";
-    private static final String GENDER = "Gender";
+    private static final String STUDENT_ID = "STUDENT ID";
+    private static final String FIRST_NAME = "FIRST NAME";
+    private static final String LAST_NAME = "LAST NAME";
+    private static final String GENDER = "GENDER";
     private static final String DOB = "DOB";
 
-    private static final String[] COLUMNS = {STUDENT_ID, FIRST_NAME, LAST_NAME, GENDER, DOB};
+    private static final String COLUMNS_HEADERS_DO_NOT_MATCH = "Columns headers do not match!";
+    private static final String FAIL_TO_PARSE_EXCEL_FILE = "Fail to parse Excel file: ";
+
+    private final List<String> columnsNames = new ArrayList<>(Arrays.asList(STUDENT_ID, FIRST_NAME, LAST_NAME, GENDER, DOB));
 
     private final StudentService studentService;
 
@@ -48,15 +48,16 @@ public class FileService {
                 List<Student> students = new ArrayList<>();
 
                 int rowNumber = 0;
+                List<String> headers = new ArrayList<>();
                 while (rows.hasNext()) {
                     Row row = rows.next();
-
                     if (rowNumber == 0) {
+                        this.validateHeaderNames(row, headers);
                         rowNumber++;
                         continue;
                     }
 
-                    students.add(this.createStudent(row));
+                    students.add(this.createStudent(row, headers));
                 }
                 this.studentService.saveStudents(students);
             }
@@ -92,9 +93,9 @@ public class FileService {
 
     private void createHeaderRow(Sheet sheet, CellStyle headerCellStyle) {
         Row headerRow = sheet.createRow(0);
-        for (int col = 0; col < COLUMNS.length; col++) {
+        for (int col = 0; col < columnsNames.size(); col++) {
             Cell cell = headerRow.createCell(col);
-            cell.setCellValue(COLUMNS[col]);
+            cell.setCellValue(columnsNames.get(col));
             cell.setCellStyle(headerCellStyle);
         }
     }
@@ -104,32 +105,60 @@ public class FileService {
         List<Student> students = this.studentService.getStudents();
         for (Student student : students) {
             Row row = sheet.createRow(rowIndex++);
-            for (int col = 0; col < COLUMNS.length; col++) {
-              this.createCell(row, student, col, COLUMNS[col]);
+            for (int col = 0; col < columnsNames.size(); col++) {
+              this.addData(row, student, col, columnsNames.get(col), false);
             }
         }
     }
 
-    private void createCell(Row row, Student student, int col, String value) {
+    private Student createStudent(Row row, List<String> headers) {
+        Student student = new Student();
+        for (int col = 0; col < headers.size(); col++) {
+            this.addData(row, student, col, headers.get(col), true);
+        }
+        return student;
+    }
+
+    private void addData(Row row, Student student, int col, String value, boolean upload) {
         switch (value) {
             case STUDENT_ID: {
                 row.createCell(col).setCellValue(student.getStudentId());
                 break;
             }
             case FIRST_NAME: {
-                row.createCell(col).setCellValue(student.getFirstName());
+                if (upload) {
+                    student.setFirstName(row.getCell(col).getStringCellValue());
+                }
+                else {
+                    row.createCell(col).setCellValue(student.getFirstName());
+                }
                 break;
             }
             case LAST_NAME: {
-                row.createCell(col).setCellValue(student.getLastName());
+                if (upload) {
+                    student.setLastName(row.getCell(col).getStringCellValue());
+                }
+                else {
+                    row.createCell(col).setCellValue(student.getLastName());
+                }
                 break;
             }
             case GENDER: {
-                row.createCell(col).setCellValue(student.getGender());
+                if (upload) {
+                    student.setGender(row.getCell(col).getStringCellValue());
+                }
+                else {
+                    row.createCell(col).setCellValue(student.getGender());
+                }
                 break;
             }
             case DOB: {
-                row.createCell(col).setCellValue(student.getDob());
+                if (upload) {
+                    student.setDob(row.getCell(col).getLocalDateTimeCellValue());
+                }
+                else{
+                    row.createCell(col).setCellValue(student.getDob());
+                }
                 break;
             }
             default: {
@@ -138,37 +167,14 @@ public class FileService {
         }
     }
 
-    private Student createStudent(Row row) {
-        Iterator<Cell> cellsInRow = row.iterator();
-
-        Student student = new Student();
-
-        int cellIndex = 0;
-        while (cellsInRow.hasNext()) {
-            Cell currentCell = cellsInRow.next();
-            switch (cellIndex) {
-                case 1: {
-                    student.setFirstName(currentCell.getStringCellValue());
-                    break;
-                }
-                case 2: {
-                    student.setLastName(currentCell.getStringCellValue());
-                    break;
-                }
-                case 3: {
-                    student.setGender(currentCell.getStringCellValue());
-                    break;
-                }
-                case 4: {
-                    student.setDob(currentCell.getLocalDateTimeCellValue());
-                    break;
-                }
-                default: {
-                    break;
-                }
+    private void validateHeaderNames( Row row, List<String> headers) {
+        row.iterator().forEachRemaining(cell -> {
+            if (columnsNames.stream().anyMatch(col -> col.equalsIgnoreCase(cell.getStringCellValue()))) {
+                headers.add(cell.getStringCellValue().toUpperCase());
             }
-            cellIndex++;
+        });
+        if (headers.size() != columnsNames.size() && !headers.containsAll(columnsNames)) {
+            throw new IllegalArgumentException(COLUMNS_HEADERS_DO_NOT_MATCH);
         }
-        return student;
     }
 }

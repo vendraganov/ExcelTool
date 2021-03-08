@@ -2,12 +2,12 @@
   <div class="row justify-content-end align-items-end padding">
     <button type="button" class="btn button-color button-width" (click)="backToAdminPanel()">Go Back</button>
   </div>
-  <label class="padding-left">Add new student form</label>
+  <label class="padding-left label-color">Add new student form</label>
   <hr/>
   <div class="row justify-content-center align-items-center padding">
     <form [formGroup]="studentForm" (ngSubmit)="onSubmit()">
       <div class=" form-group mb-3">
-        <label for="exampleInputFirstName" class="form-label">First Name</label>
+        <label for="exampleInputFirstName" class="form-label label-color">First Name</label>
         <input id="exampleInputFirstName"
                type="text"
                class="form-control"
@@ -24,7 +24,7 @@
       </div>
 
       <div class=" form-group mb-3">
-        <label for="exampleInputLastName" class="form-label">Last Name</label>
+        <label for="exampleInputLastName" class="form-label label-color">Last Name</label>
         <input id="exampleInputLastName"
                type="text"
                class="form-control"
@@ -41,19 +41,19 @@
       </div>
 
       <div class="form-group mb-4">
-        <label class="form-label">Gender</label>
+        <label class="form-label label-color">Gender</label>
         <div>
           <div class="radio-item">
-            <input type="radio" id="female" value="Female" formControlName="gender">
-            <label class="radio-inline-label" for="female">Female</label>
+            <input type="radio" id="female" value="F" formControlName="gender">
+            <label class="radio-inline-label label-color" for="female">Female</label>
           </div>
           <div class="radio-item">
-            <input type="radio" id="Male" value="Male" formControlName="gender">
-            <label class="radio-inline-label" for="Male">Male</label>
+            <input type="radio" id="male" value="M" formControlName="gender">
+            <label class="radio-inline-label label-color" for="male">Male</label>
           </div>
           <div class="radio-item">
-            <input type="radio" id="divers" value="Divers" formControlName="gender">
-            <label class="radio-inline-label" for="divers">Divers</label>
+            <input type="radio" id="divers" value="D" formControlName="gender">
+            <label class="radio-inline-label label-color" for="divers">Divers</label>
           </div>
           <div class="error-text">
               <span *ngIf="studentForm.get('gender').errors?.required">
@@ -64,7 +64,7 @@
       </div>
 
       <div class=" form-group mb-3">
-        <label for="dob" class="form-label">Date Of Birth</label>
+        <label for="dob" class="form-label label-color">Date Of Birth</label>
         <input id="dob"
                type="date"
                class="form-control"
@@ -81,5 +81,12 @@
       </div>
       <button type="submit" class="btn button-color mt-3 mb-4 button-width" [disabled]="studentForm.invalid">Submit</button>
     </form>
+    <ngx-spinner
+      bdColor=""
+      size="medium"
+      color="#2DB4A0"
+      type="ball-spin-clockwise-fade-rotating"
+      [fullScreen]="false">
+    </ngx-spinner>
   </div>
 </div>

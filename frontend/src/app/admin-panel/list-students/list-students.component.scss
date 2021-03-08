@@ -1,0 +1,11 @@
+thead th {
+  background-color: var(--primary-color) !important;
+  color: var(--text-color) !important;
+  position: sticky;
+  top: 0;
+}
+
+.pre-scrollable {
+  max-height: 500px;
+  overflow-y: auto;
+}

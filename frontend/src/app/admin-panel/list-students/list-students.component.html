@@ -2,9 +2,48 @@
   <div class="row justify-content-end align-items-end padding">
     <button type="button" class="btn button-color button-width" (click)="backToAdminPanel()">Go Back</button>
   </div>
+  <label class="padding-left label-color">List of students ( {{students.length}} )</label>
   <hr/>
   <div class="row justify-content-center align-items-center padding">
-    <label class="form-label">Students</label>
-
+    <div class="pre-scrollable"
+         infiniteScroll
+         [scrollWindow]=false
+         [infiniteScrollDistance]="2"
+         [infiniteScrollThrottle]="50"
+         (scrolled)="onScroll()">
+      <div class="table-responsive-md">
+        <table class="table table-secondary table-striped table-hover">
+          <thead class="table-bg">
+          <tr>
+            <th *ngFor="let col of COLUMNS" scope="col">{{col}}</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let student of students; let i = index">
+            <td>{{student.studentId}}</td>
+            <td>{{student.firstName}}</td>
+            <td>{{student.lastName}}</td>
+            <td>{{student.gender}}</td>
+            <td>{{student.dob | date}}</td>
+            <td>
+              <button class="button-trash" type="button" (click)="deleteStudent(student.studentId, i)"><i
+                class="fa fa-trash"></i></button>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <ngx-spinner
+    bdColor=""
+    size="medium"
+    color="#2DB4A0"
+    type="ball-spin-clockwise-fade-rotating"
+    [fullScreen]="false">
+  </ngx-spinner>
+  <hr/>
+  <div class="row justify-content-center align-items-center padding pt-2">
+    <label *ngIf="noStudentsToAdd" class="label-color">No more students to show</label>
   </div>
 </div>

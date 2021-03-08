@@ -5,7 +5,7 @@
         {{errorMessage}}
       </div>
       <div class=" form-group mb-3">
-        <label for="exampleInputEmail" class="form-label">Email address</label>
+        <label for="exampleInputEmail" class="form-label label-color">Email address</label>
         <input id="exampleInputEmail"
                type="email"
                class="form-control"
@@ -25,7 +25,7 @@
       </div>
 
       <div class="form-group mb-3">
-        <label for="exampleInputPassword" class="form-label">Password</label>
+        <label for="exampleInputPassword" class="form-label label-color">Password</label>
         <div class="input-group">
           <input
             id="exampleInputPassword"
@@ -45,5 +45,12 @@
       </div>
       <button type="submit" class="btn button-color button-width" [disabled]="loginForm.invalid">Submit</button>
     </form>
+    <ngx-spinner
+      bdColor=""
+      size="medium"
+      color="#2DB4A0"
+      type="ball-spin-clockwise-fade-rotating"
+      [fullScreen]="false">
+    </ngx-spinner>
   </div>
 </div>

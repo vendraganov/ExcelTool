@@ -19,8 +19,10 @@ public class StudentController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(StudentController.class);
 
-    private static final String STUDENT_WITH_ID_WAS_DELETED = "Student with %d id was deleted";
-    private static final String DELETING_STUDENT_WITH_ID_WHICH_DOES_NOT_EXIST = "Trying deleting Student with %d id which does not exist";
+    private static final String GETTING_ALL_STUDENT = "Getting all Students!";
+    private static final String GETTING_ALL_STUDENT_ON_BATCHES = "Getting Students on batches. Starting index: ";
+    private static final String STUDENT_WITH_ID_WAS_DELETED = "Student with id: %d was deleted";
+    private static final String DELETING_STUDENT_WITH_ID_WHICH_DOES_NOT_EXIST = "Trying deleting Student with id: %d which does not exist";
     private static final String REQUEST_TO_REGISTER_NEW_STUDENT = "Request to register new Student";
     private static final String ERROR_REGISTER_NEW_STUDENT = "Error! Cannot register new Student! ";
 
@@ -33,7 +35,14 @@ public class StudentController {
 
     @GetMapping("/all")
     public ResponseEntity<List<Student>> getStudents() {
+        LOGGER.info(GETTING_ALL_STUDENT);
         return new ResponseEntity<>(this.studentService.getStudents(), HttpStatus.OK);
+    }
+
+    @GetMapping("/batch/{pageIndex}")
+    public ResponseEntity<List<Student>> getBatchOfStudents(@PathVariable int pageIndex) {
+        LOGGER.info(GETTING_ALL_STUDENT_ON_BATCHES + pageIndex);
+        return new ResponseEntity<>(this.studentService.getBatchOfStudents(pageIndex), HttpStatus.OK);
     }
 
     @PostMapping("/save")

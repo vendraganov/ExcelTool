@@ -2,6 +2,7 @@ package vd.excel_demo.services;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import vd.excel_demo.models.Student;
 import vd.excel_demo.repositories.StudentRepository;
@@ -10,6 +11,8 @@ import java.util.List;
 
 @Service
 public class StudentService {
+
+    private final static int BATCH_COUNT = 20;
 
     private final StudentRepository studentRepository;
 
@@ -20,6 +23,10 @@ public class StudentService {
 
     public List<Student> getStudents() {
         return this.studentRepository.findAll();
+    }
+
+    public List<Student> getBatchOfStudents(int pageIndex) {
+        return this.studentRepository.findAll(PageRequest.of(pageIndex, BATCH_COUNT)).getContent();
     }
 
     public Student saveStudent(Student student) {

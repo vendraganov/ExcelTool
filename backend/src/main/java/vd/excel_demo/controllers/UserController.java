@@ -24,7 +24,7 @@ public class UserController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(UserController.class);
 
-    private static final String LOGIN_USER = "Login user with email %s";
+    private static final String LOGIN_USER = "Login user with email: ";
     private static final String ERROR_LOGIN = "Error login user! ";
     private static final String LOGGING_REQUEST = "Logging request";
 
@@ -48,7 +48,7 @@ public class UserController {
                     )
             );
             SecurityContextHolder.getContext().setAuthentication(authentication);
-            LOGGER.info(String.format(LOGIN_USER, login.getEmail()));
+            LOGGER.info(LOGIN_USER + login.getEmail());
             return this.userService.login(login.getEmail());
         } catch (AuthenticationException ex) {
             LOGGER.error(ERROR_LOGIN + ex.getMessage());

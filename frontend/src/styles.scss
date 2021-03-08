@@ -44,17 +44,38 @@
   padding-left: 50px;
 }
 
+.button-trash {
+  border: none;
+  background-color: transparent;
+  color: var(--warning-color);
+}
+
 .button-width {
   max-width: 150px !important;
 }
 
+.label-color {
+  color: var(--text-color) !important;
+}
+
 .button-color {
   background-color: var(--primary-color) !important;
-  color: white !important;
+  color: var(--text-color) !important;
+}
+
+input[type=text] {
+  background-color: var(--text-color) !important;
+}
+
+input[type=text]:focus {
+  box-shadow: none !important;
+  border: 2px solid var(--primary-color);
+  border-radius: 4px;
 }
 
 :root {
-  --primary-color: rgb(45, 180, 160, 0.8);
-  --warning-color: rgb(220, 50, 70)
+  --primary-color: rgb(40, 160, 140);
+  --warning-color: rgb(220, 50, 70);
+  --text-color: rgba(255, 255, 255, 0.7);
 }
 

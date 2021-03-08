@@ -5,6 +5,7 @@ import {Router} from '@angular/router';
 import {Subscription} from 'rxjs';
 import {HttpService} from '../services/http.service';
 import {HttpErrorResponse} from '@angular/common/http';
+import {NgxSpinnerService} from 'ngx-spinner';
 
 @Component({
   selector: 'app-login',
@@ -22,7 +23,8 @@ export class LoginComponent implements OnInit, OnDestroy {
   login: Login;
   loginSub: Subscription = new Subscription();
 
-  constructor(private router: Router, private httpService: HttpService) { }
+  constructor(private router: Router, private httpService: HttpService, private spinner: NgxSpinnerService) {
+  }
 
   ngOnInit(): void {
     localStorage.clear();
@@ -37,20 +39,19 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   onSubmit(): void {
+    this.spinner.show();
     this.login = this.loginForm.value;
-    this.loginSub = this.httpService.login(this.login).subscribe(
-      (userResponse) => {
-        localStorage.setItem(this.TOKEN_KEY, userResponse.token);
-        localStorage.setItem(this.ROLE_KEY, userResponse.role);
-        this.router.navigate(['admin-panel']);
-      },
-      (error: HttpErrorResponse) => {
-        if (error.error.error) {
-          this.errorMessage = error.error.message;
-        }else {
-          this.errorMessage = error.error;
+    this.loginSub = this.httpService.login(this.login)
+      .subscribe((userResponse) => {
+          this.spinner.hide();
+          localStorage.setItem(this.TOKEN_KEY, userResponse.token);
+          localStorage.setItem(this.ROLE_KEY, userResponse.role);
+          this.router.navigate(['admin-panel']);
+        },
+        (error: HttpErrorResponse) => {
+          this.spinner.hide();
+          this.httpService.handleError(error);
         }
-      }
-    );
+      );
   }
 }

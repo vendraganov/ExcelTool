@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-not-found',
@@ -7,9 +8,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NotFoundComponent implements OnInit {
 
-  constructor() { }
+  defaultMessage = 'The page you are looking for was not found!';
+
+  constructor(private router: Router) { }
 
   ngOnInit(): void {
   }
 
+  logout(): void {
+    localStorage.clear();
+    this.router.navigate(['login']);
+  }
 }

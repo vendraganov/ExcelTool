@@ -1,10 +1,11 @@
 import {Injectable} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpErrorResponse} from '@angular/common/http';
 import {Login} from '../models/login';
 import {Observable} from 'rxjs';
 import {UserResponse} from '../models/user-response';
 import {ResponseMessage} from '../models/response-message';
 import {Student} from '../models/student';
+import {Router} from '@angular/router';
 
 @Injectable({providedIn: 'root'})
 export class HttpService {
@@ -13,6 +14,7 @@ export class HttpService {
   private readonly LOGIN_URL = this.SERVICE_URL + '/user/login';
 
   private readonly STUDENT_ALL_URL = this.SERVICE_URL + '/student/all';
+  private readonly STUDENT_BATCH_URL = this.SERVICE_URL + '/student/batch';
   private readonly STUDENT_SAVE_URL = this.SERVICE_URL + '/student/save';
   private readonly STUDENT_DELETE_URL = this.SERVICE_URL + '/student/delete';
 
@@ -22,7 +24,7 @@ export class HttpService {
   private readonly RESPONSE_TYPE = 'blob';
   private readonly FILE = 'file';
 
-  constructor(private httpClient: HttpClient) {
+  constructor(private httpClient: HttpClient, private router: Router) {
   }
 
   login(login: Login): Observable<UserResponse> {
@@ -35,6 +37,11 @@ export class HttpService {
 
   getStudents(): Observable<Student[]> {
     return this.httpClient.get<Student[]>(this.STUDENT_ALL_URL);
+  }
+
+  getBatchOfStudents(startIndex: number): Observable<Student[]> {
+    const url = `${this.STUDENT_BATCH_URL}/${startIndex}`;
+    return this.httpClient.get<Student[]>(url);
   }
 
   deleteStudent(studentId: string): Observable<boolean> {
@@ -50,5 +57,16 @@ export class HttpService {
 
   downloadFile(): Observable<any> {
     return this.httpClient.get( this.DOWNLOAD_FILE_URL, { responseType: this.RESPONSE_TYPE});
+  }
+
+  handleError(error: HttpErrorResponse): void {
+    if (error.error.error) {
+      alert(error.error.message);
+    } else {
+      alert(error.error);
+    }
+    if (error.status === 401) {
+      this.router.navigate(['login']);
+    }
   }
 }

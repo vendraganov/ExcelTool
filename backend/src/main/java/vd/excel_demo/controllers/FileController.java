@@ -17,6 +17,8 @@ import vd.excel_demo.utils.Constants;
 
 import java.io.IOException;
 
+import static vd.excel_demo.utils.Constants.SPACE;
+
 @RestController
 @RequestMapping("/file")
 public class FileController {
@@ -47,8 +49,9 @@ public class FileController {
             headers.add(HttpHeaders.CONTENT_DISPOSITION, FILENAME_STUDENTS_XLSX);
             return new ResponseEntity<>(this.fileService.downloadFile(), headers, HttpStatus.OK);
         } catch (IOException e) {
-            LOGGER.error(ERROR_DOWNLOADING_FILE + e.getMessage());
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, ERROR_DOWNLOADING_FILE);
+            String message = ERROR_DOWNLOADING_FILE + e.getMessage();
+            LOGGER.error(message);
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, message);
         }
     }
 
@@ -61,8 +64,8 @@ public class FileController {
                 String message = UPLOADED_FILE_SUCCESSFULLY + file.getOriginalFilename();
                 return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(message));
             } catch (Exception e) {
-                String message = COULD_NOT_UPLOAD_FILE + file.getOriginalFilename();
-                LOGGER.error(message + e.getMessage());
+                String message = COULD_NOT_UPLOAD_FILE + file.getOriginalFilename() + SPACE + e.getMessage();
+                LOGGER.error(message);
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, message);
             }
         }
