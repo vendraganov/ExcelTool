@@ -1,6 +1,7 @@
 package vd.excel_demo.services;
 
 import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.xssf.usermodel.XSSFCreationHelper;
 import org.apache.poi.xssf.usermodel.XSSFFont;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +28,7 @@ public class FileService {
 
     private static final String COLUMNS_HEADERS_DO_NOT_MATCH = "Columns headers do not match!";
     private static final String FAIL_TO_PARSE_EXCEL_FILE = "Fail to parse Excel file: ";
+    private static final String DATE_PATTERN = "mm/dd/yyyy";
 
     private final List<String> columnsNames = new ArrayList<>(Arrays.asList(STUDENT_ID, FIRST_NAME, LAST_NAME, GENDER, DOB));
 
@@ -80,33 +82,36 @@ public class FileService {
             headerFont.setBold(true);
             headerFont.setColor(IndexedColors.BLACK.getIndex());
 
+            XSSFCreationHelper createHelper = workbook.getCreationHelper();
             CellStyle headerCellStyle = workbook.createCellStyle();
             headerCellStyle.setFont(headerFont);
+            CellStyle dobCellStyle = workbook.createCellStyle();
+            dobCellStyle.setDataFormat(createHelper.createDataFormat().getFormat(DATE_PATTERN));
 
             this.createHeaderRow(sheet, headerCellStyle);
-            this.createRows(sheet);
+            this.createRows(sheet, dobCellStyle);
 
             workbook.write(byteArrayOutputStream);
             return new ByteArrayResource(byteArrayOutputStream.toByteArray());
         }
     }
 
-    private void createHeaderRow(Sheet sheet, CellStyle headerCellStyle) {
+    private void createHeaderRow(Sheet sheet, CellStyle cellStyle) {
         Row headerRow = sheet.createRow(0);
         for (int col = 0; col < columnsNames.size(); col++) {
             Cell cell = headerRow.createCell(col);
             cell.setCellValue(columnsNames.get(col));
-            cell.setCellStyle(headerCellStyle);
+            cell.setCellStyle(cellStyle);
         }
     }
 
-    private void createRows(Sheet sheet) {
+    private void createRows(Sheet sheet, CellStyle cellStyle) {
         int rowIndex = 1;
         List<Student> students = this.studentService.getStudents();
         for (Student student : students) {
             Row row = sheet.createRow(rowIndex++);
             for (int col = 0; col < columnsNames.size(); col++) {
-              this.addData(row, student, col, columnsNames.get(col), false);
+              this.addData(row, cellStyle, student, col, columnsNames.get(col), false);
             }
         }
     }
@@ -114,12 +119,12 @@ public class FileService {
     private Student createStudent(Row row, List<String> headers) {
         Student student = new Student();
         for (int col = 0; col < headers.size(); col++) {
-            this.addData(row, student, col, headers.get(col), true);
+            this.addData(row, null, student, col, headers.get(col), true);
         }
         return student;
     }
 
-    private void addData(Row row, Student student, int col, String value, boolean upload) {
+    private void addData(Row row, CellStyle cellStyle, Student student, int col, String value, boolean upload) {
         switch (value) {
             case STUDENT_ID: {
                 row.createCell(col).setCellValue(student.getStudentId());
@@ -157,7 +162,9 @@ public class FileService {
                     student.setDob(row.getCell(col).getLocalDateTimeCellValue());
                 }
                 else{
-                    row.createCell(col).setCellValue(student.getDob());
+                    Cell cell = row.createCell(col);
+                    cell.setCellValue(student.getDob());
+                    cell.setCellStyle(cellStyle);
                 }
                 break;
             }
