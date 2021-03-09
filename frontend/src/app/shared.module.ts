@@ -3,9 +3,11 @@ import {CommonModule} from '@angular/common';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {InfiniteScrollModule} from 'ngx-infinite-scroll';
 import {NgxSpinnerModule} from 'ngx-spinner';
+import {DigitCountAnimationComponent} from './digit-count-animation/digit-count-animation.component';
 
 @NgModule({
   declarations: [
+    DigitCountAnimationComponent
   ],
   imports: [
     CommonModule,
@@ -19,7 +21,8 @@ import {NgxSpinnerModule} from 'ngx-spinner';
     FormsModule,
     ReactiveFormsModule,
     InfiniteScrollModule,
-    NgxSpinnerModule
+    NgxSpinnerModule,
+    DigitCountAnimationComponent
   ]
 })
 export class SharedModule {

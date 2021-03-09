@@ -25,7 +25,12 @@ import vd.excel_demo.services.UserService;
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter implements WebMvcConfigurer {
 
-    private static final String[] AUTH_WHITELIST = {
+    private static final String ROLE_ADMIN = "ADMIN";
+    private static final String FILE_ENDPOINTS = "/file/**";
+    private static final String STUDENT_ENDPOINTS = "/student/**";
+    private static final String DB_ENDPOINT = "/h2-console/**";
+    private static final String LOGIN_ENDPOINT = "/user/login";
+    private static final String[] SWAGGER_ENDPOINTS = {
             "/v2/api-docs",
             "/swagger-resources/**",
             "/configuration/ui",
@@ -71,11 +76,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter implements WebM
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/user/login").permitAll()
-                .antMatchers("/h2-console/**").permitAll()
-                .antMatchers(AUTH_WHITELIST).permitAll()
-                .antMatchers("/student/**").hasAnyAuthority("ADMIN")
-                .antMatchers("/file/**").hasAnyAuthority("ADMIN")
+                .antMatchers(LOGIN_ENDPOINT).permitAll()
+                .antMatchers(DB_ENDPOINT).permitAll()
+                .antMatchers(SWAGGER_ENDPOINTS).permitAll()
+                .antMatchers(STUDENT_ENDPOINTS).hasAnyAuthority(ROLE_ADMIN)
+                .antMatchers(FILE_ENDPOINTS).hasAnyAuthority(ROLE_ADMIN)
                 .anyRequest().authenticated()
                 .and()
                 .exceptionHandling().accessDeniedHandler(accessDeniedHandler())

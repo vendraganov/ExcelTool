@@ -15,9 +15,9 @@ import { SharedModule } from '../shared.module';
     AddStudentComponent,
     ListStudentsComponent
   ],
-  imports: [
-    AdminPanelRoutingModule,
-    SharedModule
-  ]
+    imports: [
+        AdminPanelRoutingModule,
+        SharedModule
+    ]
 })
 export class AdminPanelModule { }

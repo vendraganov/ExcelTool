@@ -18,6 +18,7 @@ public class Login {
     @NotNull
     @Email
     private String email;
+
     @NotNull
     private String password;
 }

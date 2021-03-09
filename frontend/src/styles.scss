@@ -1,7 +1,5 @@
-/* You can add global styles to this file, and also import other style files */
-
 .bg {
-  background-color: rgba(15, 15, 15, 0.9);
+  background-color: var(--app-bg-color);
 }
 
 .error-text {
@@ -24,14 +22,14 @@
   margin-bottom: 20px;
   margin-top: 20px;
   color: white;
-  background-color: rgba(220, 50, 70, 0.1);
+  background-color: var(--bg-warning-color);
   border: 1px var(--warning-color) solid;
 }
 
 .box {
   max-width: 720px !important;
   margin-top: 7%;
-  background: rgba(0, 0, 0, 0.4);
+  background: var(--box-bg-color);
   color: white;
   border-radius: 10px;
 }
@@ -52,6 +50,12 @@
 
 .button-width {
   max-width: 150px !important;
+}
+
+.digit {
+  color: var(--primary-color) !important;
+  margin-left: 7px;
+  font-size: large;
 }
 
 .label-color {
@@ -76,6 +80,9 @@ input[type=text]:focus {
 :root {
   --primary-color: rgb(40, 160, 140);
   --warning-color: rgb(220, 50, 70);
+  --bg-warning-color: rgba(220, 50, 70, 0.1);
   --text-color: rgba(255, 255, 255, 0.7);
+  --app-bg-color: rgba(15, 15, 15, 0.9);
+  --box-bg-color: rgba(0, 0, 0, 0.4);
 }
 

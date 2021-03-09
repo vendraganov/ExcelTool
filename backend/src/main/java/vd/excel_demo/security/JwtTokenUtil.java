@@ -3,7 +3,6 @@ package vd.excel_demo.security;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import vd.excel_demo.models.User;
@@ -16,9 +15,7 @@ public class JwtTokenUtil {
 
     private static final long ACCESS_TOKEN_VALIDITY_SECONDS = 1000*60*30;
     private static final String SCOPES = "scopes";
-
-    @Value("${signing.key}")
-    private String SIGNING_KEY;
+    private static final String SIGNING_KEY = "excel-demo-project";
 
     public String getEmailFromToken(String token) {
         return getAllClaimsFromToken(token).getSubject();

@@ -11,6 +11,7 @@ public class Constants {
     public static final String UNAUTHORISED = "Unauthorised! ";
     public static final String AUTHORITY_ID = "authority_id";
 
+    public static final String FILE_TOO_LARGE = "File too large! Maximum size is 2MB";
     public static final String TYPE = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
     public static final MediaType APPLICATION_ATOM_XML = MediaType.parseMediaType(TYPE);
 }

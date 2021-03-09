@@ -15,6 +15,7 @@ export class ListStudentsComponent implements OnInit, OnDestroy {
 
   readonly COLUMNS: string[] = ['STUDENT ID', 'FIRST NAME', 'LAST NAME', 'GENDER', 'DOB', ''];
 
+  studentsCount = 0;
   pageIndex = 0;
   noStudentsToAdd = false;
   scrollable = true;
@@ -25,7 +26,7 @@ export class ListStudentsComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.getBatchOfStudents();
+    this.getStudentsCount();
   }
 
   ngOnDestroy(): void {
@@ -43,12 +44,28 @@ export class ListStudentsComponent implements OnInit, OnDestroy {
     }
   }
 
+  getStudentsCount(): void {
+    this.spinner.show();
+    this.studentsSub = this.httpService.getStudentsCount()
+      .subscribe((studentsCount) => {
+          this.spinner.hide();
+          this.studentsCount = studentsCount;
+          if (this.studentsCount > 0) {
+            this.getBatchOfStudents();
+          }
+        },
+        (error: HttpErrorResponse) => {
+          this.spinner.hide();
+          this.httpService.handleError(error);
+        });
+  }
+
   getBatchOfStudents(): void {
     this.spinner.show();
     this.studentsSub = this.httpService.getBatchOfStudents(this.pageIndex++)
       .subscribe((students) => {
           this.spinner.hide();
-          this.noStudentsToAdd = students.length <= 20;
+          this.noStudentsToAdd = students.length < 20;
           this.students = this.students.concat(students);
           this.scrollable = true;
         },
@@ -64,6 +81,7 @@ export class ListStudentsComponent implements OnInit, OnDestroy {
       .subscribe((isDelete: boolean) => {
         this.spinner.hide();
         if (isDelete) {
+          --this.studentsCount;
           this.deleteStudentFromList(index);
         }
       }, (error: HttpErrorResponse) => {

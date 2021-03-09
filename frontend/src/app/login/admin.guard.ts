@@ -17,7 +17,7 @@ export class AdminGuard implements CanActivate {
             return true;
         }
         alert(this.ALERT_MESSAGE);
-        this.router.navigate(['login']);
+        this.router.navigate(['/']);
         return false;
     }
 }

@@ -11,9 +11,10 @@ import {Router} from '@angular/router';
 export class HttpService {
 
   private readonly SERVICE_URL = 'http://localhost:8080';
+
   private readonly LOGIN_URL = this.SERVICE_URL + '/user/login';
 
-  private readonly STUDENT_ALL_URL = this.SERVICE_URL + '/student/all';
+  private readonly STUDENT_COUNT_URL = this.SERVICE_URL + '/student/count';
   private readonly STUDENT_BATCH_URL = this.SERVICE_URL + '/student/batch';
   private readonly STUDENT_SAVE_URL = this.SERVICE_URL + '/student/save';
   private readonly STUDENT_DELETE_URL = this.SERVICE_URL + '/student/delete';
@@ -35,8 +36,8 @@ export class HttpService {
     return this.httpClient.post<Student>(this.STUDENT_SAVE_URL, student);
   }
 
-  getStudents(): Observable<Student[]> {
-    return this.httpClient.get<Student[]>(this.STUDENT_ALL_URL);
+  getStudentsCount(): Observable<number> {
+    return this.httpClient.get<number>(this.STUDENT_COUNT_URL);
   }
 
   getBatchOfStudents(startIndex: number): Observable<Student[]> {
@@ -66,7 +67,7 @@ export class HttpService {
       alert(error.error);
     }
     if (error.status === 401) {
-      this.router.navigate(['login']);
+      this.router.navigate(['/']);
     }
   }
 }

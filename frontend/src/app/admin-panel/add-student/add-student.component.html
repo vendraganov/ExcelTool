@@ -1,6 +1,8 @@
 <div class="container-sm box">
   <div class="row justify-content-end align-items-end padding">
-    <button type="button" class="btn button-color button-width" (click)="backToAdminPanel()">Go Back</button>
+    <button type="button" class="btn button-color button-width" (click)="backToAdminPanel()">
+      Go Back
+    </button>
   </div>
   <label class="padding-left label-color">Add new student form</label>
   <hr/>
@@ -79,7 +81,9 @@
               </span>
         </div>
       </div>
-      <button type="submit" class="btn button-color mt-3 mb-4 button-width" [disabled]="studentForm.invalid">Submit</button>
+      <button type="submit" class="btn button-color mt-3 mb-4 button-width" [disabled]="studentForm.invalid">
+        Submit
+      </button>
     </form>
     <ngx-spinner
       bdColor=""

@@ -1,5 +1,6 @@
 package vd.excel_demo.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -7,9 +8,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 
 
 @Setter
@@ -25,6 +24,7 @@ public class Student {
     private static final String LAST_NAME = "last_name";
     private static final String GENDER = "gender";
     private static final String DOB = "date_of_birth";
+    private static final String DELETED = "deleted";
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -46,4 +46,8 @@ public class Student {
     @NotNull
     @Column(name = DOB)
     private LocalDateTime dob;
+
+    @JsonIgnore
+    @Column(name = DELETED)
+    private boolean deleted;
 }

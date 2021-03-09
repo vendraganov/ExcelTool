@@ -10,6 +10,7 @@ import org.springframework.web.server.ResponseStatusException;
 import vd.excel_demo.models.Student;
 import vd.excel_demo.services.StudentService;
 
+import javax.validation.Valid;
 import java.util.List;
 
 
@@ -22,7 +23,7 @@ public class StudentController {
     private static final String GETTING_ALL_STUDENT = "Getting all Students!";
     private static final String GETTING_ALL_STUDENT_ON_BATCHES = "Getting Students on batches. Starting index: ";
     private static final String STUDENT_WITH_ID_WAS_DELETED = "Student with id: %d was deleted";
-    private static final String DELETING_STUDENT_WITH_ID_WHICH_DOES_NOT_EXIST = "Trying deleting Student with id: %d which does not exist";
+    private static final String ERROR_DELETING_STUDENT = "Error deleting Student. Student with id: %d not found";
     private static final String REQUEST_TO_REGISTER_NEW_STUDENT = "Request to register new Student";
     private static final String ERROR_REGISTER_NEW_STUDENT = "Error! Cannot register new Student! ";
 
@@ -33,10 +34,10 @@ public class StudentController {
         this.studentService = studentService;
     }
 
-    @GetMapping("/all")
-    public ResponseEntity<List<Student>> getStudents() {
+    @GetMapping("/count")
+    public ResponseEntity<Long> getStudentsCount() {
         LOGGER.info(GETTING_ALL_STUDENT);
-        return new ResponseEntity<>(this.studentService.getStudents(), HttpStatus.OK);
+        return new ResponseEntity<>(this.studentService.getStudentsCount(), HttpStatus.OK);
     }
 
     @GetMapping("/batch/{pageIndex}")
@@ -46,7 +47,7 @@ public class StudentController {
     }
 
     @PostMapping("/save")
-    public ResponseEntity<Student> saveStudent(@RequestBody Student student){
+    public ResponseEntity<Student> saveStudent(@Valid @RequestBody Student student){
         LOGGER.info(REQUEST_TO_REGISTER_NEW_STUDENT);
         try {
             return new ResponseEntity<>(this.studentService.saveStudent(student), HttpStatus.OK);
@@ -58,12 +59,14 @@ public class StudentController {
 
     @DeleteMapping("/delete/{studentId}")
     public ResponseEntity<Boolean> deleteStudent(@PathVariable Long studentId){
-        if(this.studentService.deleteStudent(studentId)){
+        try {
             LOGGER.info(String.format(STUDENT_WITH_ID_WAS_DELETED, studentId));
+            this.studentService.deleteStudent(studentId);
             return new ResponseEntity<>(true, HttpStatus.OK);
+        } catch (IllegalArgumentException e) {
+            String message = String.format(ERROR_DELETING_STUDENT, studentId);
+            LOGGER.error(message + e.getMessage());
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, message);
         }
-        String message = String.format(DELETING_STUDENT_WITH_ID_WHICH_DOES_NOT_EXIST, studentId);
-        LOGGER.warn(message);
-        throw new ResponseStatusException(HttpStatus.BAD_REQUEST, String.format(message, studentId));
     }
 }

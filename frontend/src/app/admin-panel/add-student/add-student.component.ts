@@ -57,14 +57,7 @@ export class AddStudentComponent implements OnInit, OnDestroy {
                 (error: HttpErrorResponse) => {
                     this.spinner.hide();
                     this.studentForm.reset();
-                    if (error.error.error) {
-                        alert(error.error.message);
-                    } else {
-                        alert(error.error);
-                    }
-                    if (error.status === 401) {
-                        this.router.navigate(['login']);
-                    }
+                    this.httpService.handleError(error);
                 }
             );
     }

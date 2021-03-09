@@ -62,13 +62,13 @@ public class FileController {
             try {
                 this.fileService.uploadFile(file);
                 String message = UPLOADED_FILE_SUCCESSFULLY + file.getOriginalFilename();
-                return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(message));
+                return new ResponseEntity<>(new ResponseMessage(message), HttpStatus.OK);
             } catch (Exception e) {
                 String message = COULD_NOT_UPLOAD_FILE + file.getOriginalFilename() + SPACE + e.getMessage();
                 LOGGER.error(message);
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, message);
             }
         }
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseMessage(UPLOAD_EXCEL_FILE));
+        return new ResponseEntity<>(new ResponseMessage(UPLOAD_EXCEL_FILE),HttpStatus.BAD_REQUEST);
     }
 }

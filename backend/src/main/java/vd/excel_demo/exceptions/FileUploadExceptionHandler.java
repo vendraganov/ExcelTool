@@ -10,12 +10,12 @@ import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 import vd.excel_demo.models.ResponseMessage;
 
+import static vd.excel_demo.utils.Constants.FILE_TOO_LARGE;
+
 @ControllerAdvice
 public class FileUploadExceptionHandler extends ResponseEntityExceptionHandler {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(FileUploadExceptionHandler.class);
-
-    private static final String FILE_TOO_LARGE = "File too large! ";
 
     @ExceptionHandler(MaxUploadSizeExceededException.class)
     public ResponseEntity<ResponseMessage> handleMaxSizeException(MaxUploadSizeExceededException e) {

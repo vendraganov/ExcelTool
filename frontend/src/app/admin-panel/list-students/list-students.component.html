@@ -1,15 +1,32 @@
 <div class="container-sm box">
   <div class="row justify-content-end align-items-end padding">
-    <button type="button" class="btn button-color button-width" (click)="backToAdminPanel()">Go Back</button>
+    <button type="button" class="btn button-color button-width" (click)="backToAdminPanel()">
+      Go Back
+    </button>
   </div>
-  <label class="padding-left label-color">List of students ( {{students.length}} )</label>
+  <div *ngIf="studentsCount > 0" class="padding-left">
+    <div>
+      <label class="label-color">Total students count
+        <span class="digit">- {{studentsCount}} -</span>
+      </label>
+    </div>
+    <div>
+      <label class="label-color mt-1">Loaded
+        <span class="digit">-
+        <app-digit-count-animation [digit]="students.length"></app-digit-count-animation> -</span>
+      </label>
+    </div>
+  </div>
   <hr/>
   <div class="row justify-content-center align-items-center padding">
-    <div class="pre-scrollable"
+    <div *ngIf="studentsCount === 0">
+      <label class="label-color mt-1">No students found in the database</label>
+    </div>
+    <div *ngIf="studentsCount > 0" class="pre-scrollable"
          infiniteScroll
          [scrollWindow]=false
          [infiniteScrollDistance]="2"
-         [infiniteScrollThrottle]="50"
+         [infiniteScrollThrottle]="150"
          (scrolled)="onScroll()">
       <div class="table-responsive-md">
         <table class="table table-secondary table-striped table-hover">
@@ -26,8 +43,9 @@
             <td>{{student.gender}}</td>
             <td>{{student.dob | date}}</td>
             <td>
-              <button class="button-trash" type="button" (click)="deleteStudent(student.studentId, i)"><i
-                class="fa fa-trash"></i></button>
+              <button class="button-trash" type="button" (click)="deleteStudent(student.studentId, i)">
+                <i class="fa fa-trash"></i>
+              </button>
             </td>
           </tr>
           </tbody>
